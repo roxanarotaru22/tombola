@@ -4,6 +4,7 @@ import org.eclipse.swt.widgets.Button;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -29,6 +30,7 @@ public class Client {
 	ArrayList<TableItem> celle = new ArrayList<TableItem>();
 	ArrayList<TableColumn> colonne = new ArrayList<TableColumn>();
 
+	
 	/**
 	 * Launch the application.
 	 * 
@@ -67,7 +69,7 @@ public class Client {
 		shell.setText("SWT Application");
 
 		table = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setBounds(10, 56, 366, 83);
+		table.setBounds(10, 138, 366, 83);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 
@@ -89,11 +91,7 @@ public class Client {
 				try {
 					s = new Socket("172.16.6.1", 9999);
 
-					 ClientReceiver cr = new ClientReceiver(s, Client.this);
-					// -il socket
-					// out = new PrintWriter(s.getOutputStream(), true);
-					// -la classe grafica
-					 cr.start();
+				
 				} catch (UnknownHostException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -103,7 +101,7 @@ public class Client {
 				}
 			}
 		});
-		btnConnessione.setBounds(10, 10, 75, 25);
+		btnConnessione.setBounds(10, 36, 75, 25);
 		btnConnessione.setText("INIZIA");
 
 		Button btnCarta = new Button(shell, SWT.NONE);
@@ -154,6 +152,11 @@ public class Client {
 							}
 						}
 					}
+					 ClientReceiver cr = new ClientReceiver(s, Client.this);
+						// -il socket
+						// out = new PrintWriter(s.getOutputStream(), true);
+						// -la classe grafica
+						 cr.start();
 
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -162,13 +165,57 @@ public class Client {
 
 			}
 		});
-		btnCarta.setBounds(105, 10, 85, 25);
+		btnCarta.setBounds(290, 227, 85, 25);
 		btnCarta.setText("Genera Scheda");
 
 		Label lblSchedaGioco = new Label(shell, SWT.NONE);
-		lblSchedaGioco.setBounds(10, 35, 85, 15);
+		lblSchedaGioco.setBounds(10, 83, 85, 15);
 		lblSchedaGioco.setText("Scheda gioco");
-
 		
+		Button btnNumero = new Button(shell, SWT.NONE);
+		btnNumero.setText("NUMERO");
+		btnNumero.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				try {
+					PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+					out.println("NUMERO");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		btnNumero.setBounds(10, 227, 75, 25);
+		
+
 	}
+	public void addNumero(String numero){
+		Display.getDefault().asyncExec(new Runnable(){
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+
+				int n1=0;
+				System.out.println("Ricevo: " + numero);
+				for (int i = 0; i < celle.size(); i++) {
+					for (int j = 0; j < 10; j++) {
+						
+						if (numero.equals(celle.get(i).getText(j))) {
+							n1 = 1;
+						} 
+					}
+				}
+				if (n1 == 1) {
+					System.out.println("NUMERO ESISTENTE");
+				} else {
+					System.out.println("NUMERO NON ESISTENTE");
+				}
+			}
+		});
+
+}
 }

@@ -21,16 +21,14 @@ public class ClientReceiver extends Thread {
 		super.run();
 		// all'infinito resta in ascolto di nuovi messaggi nel socket
 		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+		
 			while(true){
 				// quando arriva un nuovo messaggio
-				int num = s.getInputStream().read();
-				for(int i=0; i<numeri.size(); i++){
-					if(numeri.get(i)==num){
-						riceve.add(num);
-					}
-				}
 				
+				InputStreamReader isr = new InputStreamReader(s.getInputStream());
+				BufferedReader in = new BufferedReader(isr);
+				String num = in.readLine();
+				c.addNumero(num);
 				// legge il messaggio 
 				// comunica alla grafica il nuovo messaggio
 			
