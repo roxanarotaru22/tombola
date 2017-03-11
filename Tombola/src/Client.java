@@ -72,9 +72,16 @@ public class Client {
 		shlTombola.setSize(533, 361);
 		shlTombola.setText("Tombola");
 
+
+		Label inizio = new Label(shlTombola, SWT.NONE);
+		inizio.setForeground(SWTResourceManager.getColor(0, 0, 0));
+		inizio.setFont(SWTResourceManager.getFont("Tekton Pro Ext", 11, SWT.NORMAL));
+		inizio.setBackground(SWTResourceManager.getColor(169, 169, 169));
+		inizio.setBounds(98, 10, 349, 48);
+		
 		table = new Table(shlTombola, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setForeground(SWTResourceManager.getColor(255, 0, 0));
-		table.setBackground(SWTResourceManager.getColor(222, 184, 135));
+		table.setForeground(SWTResourceManager.getColor(255, 0, 255));
+		table.setBackground(SWTResourceManager.getColor(211, 211, 211));
 		table.setBounds(81, 92, 366, 83);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -97,13 +104,16 @@ public class Client {
 		// celle.get(5).setText(5,"1");
 
 		Button btnConnessione = new Button(shlTombola, SWT.NONE);
+		btnConnessione.setImage(SWTResourceManager.getImage(Client.class, "/img/Start.png"));
 		btnConnessione.setForeground(SWTResourceManager.getColor(255, 0, 0));
 		btnConnessione.setFont(SWTResourceManager.getFont("Tekton Pro Ext", 11, SWT.BOLD));
 		btnConnessione.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				
 				try {
 					s = new Socket("172.16.6.1", 9999);
+					inizio.setText("Il gioco e' iniziato. Genera una Scheda!");
 
 				} catch (UnknownHostException e1) {
 					// TODO Auto-generated catch block
@@ -218,6 +228,14 @@ public class Client {
 		label.setForeground(SWTResourceManager.getColor(255, 0, 0));
 		label.setBackground(SWTResourceManager.getColor(169, 169, 169));
 		label.setBounds(0, 254, 517, 21);
+		
+		Label lblNewLabel = new Label(shlTombola, SWT.NONE);
+		lblNewLabel.setForeground(SWTResourceManager.getColor(255, 0, 0));
+		lblNewLabel.setFont(SWTResourceManager.getFont("Tempus Sans ITC", 10, SWT.ITALIC));
+		lblNewLabel.setBackground(SWTResourceManager.getColor(169, 169, 169));
+		lblNewLabel.setBounds(409, 233, 108, 15);
+		lblNewLabel.setText("By Roxana e Alice");
+		
 
 	}
 
